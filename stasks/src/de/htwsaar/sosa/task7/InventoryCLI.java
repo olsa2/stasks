@@ -45,6 +45,7 @@ public class InventoryCLI {
 					break;
 
 				case 8:
+					displayByLowQuantity();
 					break;
 
 				case 9:
@@ -79,6 +80,7 @@ public class InventoryCLI {
 		System.out.println("5. Display all");
 		System.out.println("6. Sort by name");
 		System.out.println("7. Sort by price");
+		System.out.println("8. Display by low quantity");
 		System.out.println("9. Display by user filter");
 		System.out.println("10. Increment price by 1 percent");
 		System.out.println("11. Exit");
@@ -153,15 +155,21 @@ public class InventoryCLI {
 	private void displayByUserFilter() {
 		final String name = ask("Name contains");
 		final String category = ask("Category contains");
-		final double priceLow = Double.parseDouble(ask("Price >="));
-		final double priceHigh = Double.parseDouble(ask("Price <="));
-		final int quantityLow = Integer.parseInt(ask("Quantity >="));
-		final int quantityHigh = Integer.parseInt(ask("Quantity <="));
-		List<Product> filtered = inventory.filterProducts(p->p.getName().contains(name) && p.getCategory().contains(category) 
-				&& p.getPrice() >= priceLow && p.getPrice() <= priceHigh && p.getQuantity() >= quantityLow && p.getQuantity() <= quantityHigh);
+		//final double priceLow = Double.parseDouble(ask("Price >="));
+		//final double priceHigh = Double.parseDouble(ask("Price <="));
+		//final int quantityLow = Integer.parseInt(ask("Quantity >="));
+		//final int quantityHigh = Integer.parseInt(ask("Quantity <="));
+		List<Product> filtered = inventory.filterProducts(p->p.getName().contains(name) && p.getCategory().contains(category));
 		System.out.println("Filtered by user");
 		filtered.forEach(System.out::println);
 		
+	}
+	
+	private void displayByLowQuantity() {
+		final int quantity = Integer.parseInt(ask("Quantity"));
+		List<Product> filtered = inventory.filterProducts(p->p.getQuantity()<quantity);
+		System.out.println("Filtered by low quantity");
+		filtered.forEach(System.out::println);
 	}
 	private void exit() {
 		System.out.println("Bye bye");
