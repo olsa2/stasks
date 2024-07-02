@@ -1,6 +1,7 @@
 package de.htwsaar.sosa.task8;
 
 import java.time.LocalDate;
+import java.util.Collection;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
@@ -45,6 +46,10 @@ public class LibraryManagementSystem {
 		booksByDate.add(book);
 		return true;
 	}
+	
+	public Collection<Book> getAllBooks() {
+		return allBooks;
+	}
 
 	public void displayBooksBorrowedByReader(String readerId) {
 		User user = users.get(readerId);
@@ -64,5 +69,9 @@ public class LibraryManagementSystem {
 	
 	public List<Book> sortBooksByPage() {
 		return allBooks.stream().sorted(Comparator.comparing(Book::getPages)).toList();
+	}
+	
+	public List<Book> sortBooksByRating() {
+		return allBooks.stream().sorted(Comparator.comparing(Book::getRating)).toList();
 	}
 }
