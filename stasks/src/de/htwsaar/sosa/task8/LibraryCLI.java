@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.Comparator;
+import java.util.List;
 import java.util.Scanner;
 import java.util.function.Predicate;
 import java.io.BufferedReader;
@@ -156,6 +157,7 @@ public class LibraryCLI {
 	}
 
 	private void calculateTotalPages() {
+		System.out.println("Total pages " + libraryManagementSystem.getTotalPages());
 	}
 
 	private void borrowBook() {
@@ -199,22 +201,24 @@ public class LibraryCLI {
 		double filterValue = scanner.nextDouble();
 		scanner.nextLine(); // Consume newline
 
-		Predicate<Book> filter;
+		Predicate<Book> filter = null;
 		switch (filterChoice) {
 		case 1:
-			// filter = ...
+			filter = book -> book.getYear() > filterValue;
 			break;
 		case 2:
-			// filter = ...
+			filter = book -> book.getPages() > filterValue;
 			break;
 		case 3:
-			// filter = ...
+			filter = book -> book.getRating() > filterValue;
 			break;
 		default:
 			System.out.println("Ungültige Auswahl.");
 			return;
 		}
-
+		
+		if (comparison!=1) filter = filter.negate();
+		
 		System.out.println("Sortieren nach benutzerdefinierten Kriterien:");
 		System.out.println("1. Nach Titel");
 		System.out.println("2. Nach Jahr");
@@ -227,25 +231,24 @@ public class LibraryCLI {
 		Comparator<Book> sorter;
 		switch (sortChoice) {
 		case 1:
-			// sorter = ...
+			sorter = Comparator.comparing(Book::getTitle);
 			break;
 		case 2:
-			// sorter = ...
+			sorter = Comparator.comparing(Book::getYear);
 			break;
 		case 3:
-			// sorter = ...
+			sorter = Comparator.comparing(Book::getPages);
 			break;
 		case 4:
-			// sorter = ...
+			sorter = Comparator.comparing(Book::getRating);
 			break;
 		default:
 			System.out.println("Ungültige Auswahl.");
 			return;
 		}
 
-		// List<Book> result = libraryManagementSystem.filterAndSortBooks(filter,
-		// sorter);
-		// result.forEach(System.out::println);
+		List<Book> result = libraryManagementSystem.filterAndSortBooks(filter,sorter);
+		result.forEach(System.out::println);
 	}
 
 	public static void main(String[] args) {

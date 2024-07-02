@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
+import java.util.function.Predicate;
 import java.util.stream.Stream;
 import java.util.LinkedList;
 
@@ -73,5 +74,13 @@ public class LibraryManagementSystem {
 	
 	public List<Book> sortBooksByRating() {
 		return allBooks.stream().sorted(Comparator.comparing(Book::getRating)).toList();
+	}
+	
+	public List<Book> filterAndSortBooks(Predicate<Book>filter,Comparator<Book> sorter) {
+		return allBooks.stream().filter(filter).sorted(sorter).toList();
+	}
+	
+	public int getTotalPages() {
+		return allBooks.stream().map(book->book.getPages()).reduce(0,Integer::sum);
 	}
 }
