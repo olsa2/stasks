@@ -138,8 +138,9 @@ public class LibraryCLI {
 		System.out.print("Bewertung: ");
 		double rating = scanner.nextDouble();
 		scanner.nextLine(); // Consume newline
-
-		System.out.println("Buch hinzugefügt!");
+		if (this.libraryManagementSystem.addBook(new Book(title,author,year,pages,genre,rating,false,null))) {
+			System.out.println("Buch hinzugefügt!");
+		}
 	}
 
 	private void displayAllBooks() {
@@ -179,9 +180,11 @@ public class LibraryCLI {
 	}
 
 	private void displayTopRatedBooks() {
+		libraryManagementSystem.getTopRatedBooks().forEach(System.out::println);
 	}
 
 	private void displayAuthorsWithMostBooks() {
+		libraryManagementSystem.getAuthorsMostBooks().forEach(System.out::println);
 	}
 
 	private void sortBooksByRating() {
@@ -216,9 +219,10 @@ public class LibraryCLI {
 			System.out.println("Ungültige Auswahl.");
 			return;
 		}
-		
-		if (comparison!=1) filter = filter.negate();
-		
+
+		if (comparison != 1)
+			filter = filter.negate();
+
 		System.out.println("Sortieren nach benutzerdefinierten Kriterien:");
 		System.out.println("1. Nach Titel");
 		System.out.println("2. Nach Jahr");
@@ -247,7 +251,7 @@ public class LibraryCLI {
 			return;
 		}
 
-		List<Book> result = libraryManagementSystem.filterAndSortBooks(filter,sorter);
+		List<Book> result = libraryManagementSystem.filterAndSortBooks(filter, sorter);
 		result.forEach(System.out::println);
 	}
 

@@ -1,6 +1,7 @@
 package de.htwsaar.sosa.task8;
 
 import java.time.LocalDate;
+import java.util.Objects;
 
 public class Book implements Comparable<Book> {
 	private String title;
@@ -105,6 +106,23 @@ public class Book implements Comparable<Book> {
 			return -1;
 		}
 		return getTitle().compareTo(o.getTitle());
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(author, title, year);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Book other = (Book) obj;
+		return Objects.equals(author, other.author) && Objects.equals(title, other.title) && year == other.year;
 	}
 	
 
